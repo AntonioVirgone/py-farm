@@ -2,23 +2,6 @@ import pygame
 import time
 from tile import Tile
 
-
-'''
-    def draw_grid(self):
-        for y in range(self.grid_size):
-            for x in range(self.grid_size):
-                rect = pygame.Rect(
-                    self.offset_x + x * self.tile_size,
-                    self.offset_y + y * self.tile_size,
-                    self.tile_size,
-                    self.tile_size
-                )
-                color = (153, 76, 0) if self.grid[y][x] == 0 else (153, 153, 0)
-                pygame.draw.rect(self.screen, color, rect)
-                pygame.draw.rect(self.screen, (0, 0, 0), rect, 1)
-'''
-
-
 class Game:
     def __init__(self, screen):
         self.screen = screen
@@ -66,7 +49,7 @@ class Game:
             self.buttons.append((rect, action))
 
     def draw_menu(self):
-        pygame.draw.rect(self.screen, (180, 180, 180), self.menu_rect)
+        pygame.draw.rect(self.screen, (96, 96, 96), self.menu_rect)
         for rect, text in self.buttons:
             color = (0, 0, 255) if self.selected_action == text else (100, 100, 255)
             pygame.draw.rect(self.screen, color, rect)
