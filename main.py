@@ -1,39 +1,25 @@
 import pygame
-
 from game import Game
-from menu import Menu
-
-pygame.init()
-
-# ====== Dimensioni della finestra ====== #
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Py Farm")
-
 
 def main():
-    menu = Menu(screen)
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("PyFarm")
+
+    clock = pygame.time.Clock()
     game = Game(screen)
 
     running = True
-    in_game = False
-
     while running:
-        screen.fill((64, 64, 64))
-
-        events = pygame.event.get()  # <-- Prima raccogli gli eventi
-
-        if not in_game:
-            in_game = menu.run(events)
-        else:
-            in_game = game.run(events)
-
-        pygame.display.flip()
-
+        events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
+
+        screen.fill((255, 255, 255))
+        game.run(events)
+        pygame.display.flip()
+        clock.tick(60)
 
     pygame.quit()
 

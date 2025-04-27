@@ -1,44 +1,50 @@
 import pygame
+from button import Button
 
 class GameMenu:
     def __init__(self, screen, width, height):
         self.screen = screen
         self.width = width
         self.height = height
-        self.rect = pygame.Rect(0, 0, width, height)
-        self.font = pygame.font.SysFont('Arial', 24)
+        self.selected_action = None
+        self.selected_plant = "Carota"
 
         self.buttons = []
-        self.selected_action = None
+        self.plant_list = ["Carota", "Pomodoro", "Zucca"]
         self.create_buttons()
 
     def create_buttons(self):
-        actions = ["Piantare", "Distruggere", "Raccogliere"]
-        for i, action in enumerate(actions):
-            btn_width, btn_height = 150, 40
-            x = 20 + i * (btn_width + 20)
-            y = (self.height - btn_height) // 2
-            rect = pygame.Rect(x, y, btn_width, btn_height)
-            self.buttons.append((rect, action))
+        self.buttons.append(Button(20, 20, 100, 40, "Piantare", self.select_planting))
+        self.buttons.append(Button(140, 20, 100, 40, "Distruggere", self.select_destroy))
+
+    def select_planting(self):
+        self.selected_action = "plant"
+
+    def select_destroy(self):
+        self.selected_action = "destroy"
+
+    def draw(self, points, harvest_counts):
+        pygame.draw.rect(self.screen, (180, 180, 180), (0, 0, self.width, self.height))
+
+        for button in self.buttons:
+            button.draw(self.screen)
+
+        font = pygame.font.SysFont(None, 24)
+        points_text = font.render(f"Punti: {points}", True, (0, 0, 0))
+        self.screen.blit(points_text, (self.width - 200, 10))
+
+        # Mostra il tipo di pianta selezionata
+        selected_plant_text = font.render(f"Pianta: {self.selected_plant}", True, (0, 0, 0))
+        self.screen.blit(selected_plant_text, (self.width - 200, 40))
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            x, y = event.pos
-            if self.rect.collidepoint(x, y):
-                for rect, action in self.buttons:
-                    if rect.collidepoint(x, y):
-                        self.selected_action = action
-                        print(f"Azione selezionata: {action}")
+        for button in self.buttons:
+            button.handle_event(event)
 
-    def draw(self, points):
-        pygame.draw.rect(self.screen, (180, 180, 180), self.rect)
-
-        for rect, text in self.buttons:
-            color = (0, 0, 255) if self.selected_action == text else (100, 100, 255)
-            pygame.draw.rect(self.screen, color, rect)
-            label = self.font.render(text, True, (255, 255, 255))
-            label_rect = label.get_rect(center=rect.center)
-            self.screen.blit(label, label_rect)
-
-        points_label = self.font.render(f"Punti: {points}", True, (0, 0, 0))
-        self.screen.blit(points_label, (self.width - 150, 30))
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                self.selected_plant = "Carota"
+            elif event.key == pygame.K_2:
+                self.selected_plant = "Pomodoro"
+            elif event.key == pygame.K_3:
+                self.selected_plant = "Zucca"
