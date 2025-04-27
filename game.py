@@ -33,7 +33,22 @@ class Game:
         self.menu.draw(self.points, self.harvest_counts)
         self.grid.draw()
 
+        # --- Disegna il pannello laterale ---
         pygame.draw.rect(self.screen, (220, 220, 220), self.side_panel)
+
+        # Mostra il raccolto nel pannello laterale
+        font = pygame.font.SysFont(None, 24)
+        y_offset = self.menu_height + 20
+        x_offset = self.screen_width - self.side_panel_width + 20
+
+        title = font.render("Raccolto:", True, (0, 0, 0))
+        self.screen.blit(title, (x_offset, y_offset))
+        y_offset += 30
+
+        for plant, count in self.harvest_counts.items():
+            text = font.render(f"{plant}: {count}", True, (0, 0, 0))
+            self.screen.blit(text, (x_offset, y_offset))
+            y_offset += 25
 
         for event in events:
             self.menu.handle_event(event)

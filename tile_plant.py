@@ -28,6 +28,6 @@ class TilePlant(Tile):
                 self.timer = time.time()
 
     def draw(self, screen):
-        color = (200, 255, 200) if self.state == 1 else (100, 200, 100) if self.state == 2 else (50, 150, 50) if self.state == 3 else (220, 220, 220)
+        color = (200, 255, 200) if self.state == 1 else (100, 200, 100) if self.state == 2 else (50, 150, 50) if self.state == 3 else (153, 76, 0)
         pygame.draw.rect(screen, color, self.rect)
         pygame.draw.rect(screen, (0, 0, 0), self.rect, 1)
