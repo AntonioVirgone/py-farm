@@ -32,10 +32,9 @@ class TilePlant(Tile):
             color = (153, 76, 0)
         else:
             color = self.plant_type.color.base_color \
-                if (self.state == 1 and (self.plant_type is not None)) else self.plant_type.color.hover_color \
-                if (self.state == 2 and (self.plant_type is not None)) else self.plant_type.color.click_color \
-                if (self.state == 3 and (self.plant_type is not None)) else (153, 76, 0)
-
+                if (self.state == 1) else self.plant_type.color.hover_color \
+                if (self.state == 2) else self.plant_type.color.click_color \
+                if (self.state == 3) else (153, 76, 0)
 
         pygame.draw.rect(screen, color, self.rect)
         pygame.draw.rect(screen, (0, 0, 0), self.rect, 1)
