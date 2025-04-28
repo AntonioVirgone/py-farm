@@ -1,4 +1,6 @@
 import pygame
+
+import config
 from game import Game
 from button import Button
 
@@ -13,8 +15,8 @@ def main():
     start_menu = True
     game = None
 
-    start_button = Button(300, 200, 200, 50, "Start Game", lambda: None)
-    quit_button = Button(300, 300, 200, 50, "Quit", lambda: exit())
+    start_button = Button(300, 200, 200, 50, "Start Game", lambda: None, base_color=config.start_button[0], hover_color=config.start_button[1], click_color=config.start_button[2])
+    quit_button = Button(300, 300, 200, 50, "Quit", lambda: exit(), base_color=config.quit_button[0], hover_color=config.quit_button[1], click_color=config.quit_button[2])
 
     while True:
         events = pygame.event.get()

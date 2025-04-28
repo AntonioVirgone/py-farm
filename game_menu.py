@@ -1,5 +1,8 @@
 import pygame
 from button import Button
+from button_color import ButtonColor
+from plant import Plant
+
 
 class GameMenu:
     def __init__(self, screen, width, height):
@@ -11,7 +14,12 @@ class GameMenu:
 
         self.buttons = []
         self.plant_buttons = []
-        self.plant_list = ["Carota", "Pomodoro", "Zucca"]
+
+        carota = Plant("Carota", ButtonColor((255, 204, 153), (255, 178, 102), (255, 153, 51)), "common", 10, 25, 3, 6)
+        pomodoro = Plant("Pomodoro", ButtonColor((255, 153, 153), (255, 102, 102), (255, 51, 51)), "common", 20, 40, 3, 14)
+        zucca = Plant("Zucca", ButtonColor((204, 255, 153), (178, 255, 102), (51, 255, 51)), "common", 50, 150, 2, 20)
+
+        self.plant_list = [carota, pomodoro, zucca]
         self.create_buttons()
 
     def create_buttons(self):
@@ -22,7 +30,7 @@ class GameMenu:
         # Bottoni per selezionare le piante
         start_x = 260
         for idx, plant in enumerate(self.plant_list):
-            btn = Button(start_x + idx * 110, 20, 100, 40, plant, lambda p=plant: self.select_plant(p))
+            btn = Button(start_x + idx * 110, 20, 100, 40, plant.name, lambda p=plant: self.select_plant(p.name), base_color=plant.color.base_color, hover_color=plant.color.hover_color, click_color=plant.color.click_color)
             self.plant_buttons.append(btn)
 
     def select_planting(self):
