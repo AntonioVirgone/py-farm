@@ -1,41 +1,52 @@
 import pygame
 
+import config
 from game import Game
-from menu import Menu
-
-pygame.init()
-
-# ====== Dimensioni della finestra ====== #
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Py Farm")
-
+from button import Button
 
 def main():
-    menu = Menu(screen)
-    game = Game(screen)
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    pygame.display.set_caption("PyFarm")
 
-    running = True
-    in_game = False
+    clock = pygame.time.Clock()
 
-    while running:
-        screen.fill((64, 64, 64))
+    # Schermata iniziale
+    start_menu = True
+    game = None
 
-        events = pygame.event.get()  # <-- Prima raccogli gli eventi
+    start_button = Button(300, 200, 200, 50, "Start Game", lambda: None, base_color=config.start_button[0], hover_color=config.start_button[1], click_color=config.start_button[2])
+    quit_button = Button(300, 300, 200, 50, "Quit", lambda: exit(), base_color=config.quit_button[0], hover_color=config.quit_button[1], click_color=config.quit_button[2])
 
-        if not in_game:
-            in_game = menu.run(events)
-        else:
-            in_game = game.run(events)
-
-        pygame.display.flip()
-
+    while True:
+        events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                return
 
-    pygame.quit()
+            if start_menu:
+                start_button.handle_event(event)
+                quit_button.handle_event(event)
+                if start_button.hovered and event.type == pygame.MOUSEBUTTONDOWN:
+                    start_menu = False
+                    game = Game(screen)
+
+        screen.fill((255, 255, 255))
+
+        if start_menu:
+            font = pygame.font.SysFont(None, 64)
+            title = font.render("PyFarm", True, (0, 100, 0))
+            screen.blit(title, (screen.get_width() // 2 - title.get_width() // 2, 100))
+
+            start_button.draw(screen)
+            quit_button.draw(screen)
+        else:
+            if game:
+                game.run(events)
+
+        pygame.display.flip()
+        clock.tick(60)
 
 if __name__ == "__main__":
     main()
