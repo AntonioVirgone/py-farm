@@ -46,7 +46,7 @@ class Game:
         y_offset += 30
 
         for plant, count in self.harvest_counts.items():
-            text = font.render(f"{plant}: {count}", True, (0, 0, 0))
+            text = font.render(f"{plant.name}: {count}", True, (0, 0, 0))
             self.screen.blit(text, (x_offset, y_offset))
             y_offset += 25
 
