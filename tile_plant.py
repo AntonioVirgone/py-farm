@@ -28,6 +28,14 @@ class TilePlant(Tile):
                 self.timer = time.time()
 
     def draw(self, screen):
-        color = (200, 255, 200) if self.state == 1 else (100, 200, 100) if self.state == 2 else (50, 150, 50) if self.state == 3 else (153, 76, 0)
+        if self.plant_type is None:
+            color = (153, 76, 0)
+        else:
+            color = self.plant_type.color.base_color \
+                if (self.state == 1 and (self.plant_type is not None)) else self.plant_type.color.hover_color \
+                if (self.state == 2 and (self.plant_type is not None)) else self.plant_type.color.click_color \
+                if (self.state == 3 and (self.plant_type is not None)) else (153, 76, 0)
+
+
         pygame.draw.rect(screen, color, self.rect)
         pygame.draw.rect(screen, (0, 0, 0), self.rect, 1)
